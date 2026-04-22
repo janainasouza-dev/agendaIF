@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agenda IFTO — Atendimento Psicossocial</title>
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ===== NAVBAR ===== -->
+  <div id="nav-bar" class="nav">
+    <span class="nav-logo">IF</span>
+    <span class="nav-title">Agenda IFTO — Atendimento Psicossocial</span>
+    <span class="nav-user" id="nav-user">Campus Colinas do Tocantins</span>
+    <button class="nav-btn" id="logout-btn" onclick="goLogin()" style="display:none;">Sair</button>
+  </div>
+
+  <div class="screen">
+
+    <!-- ===== LOGIN ===== -->
+    <div id="login-screen" class="section active">
+      <div class="login-box">
+        <div class="login-logo">
+          <div class="if-badge">IF</div>
+          <div style="font-size:15px;font-weight:500;color:var(--color-text-primary);">Agenda IFTO</div>
+          <div style="font-size:12px;color:var(--color-text-secondary);">Sistema de Atendimento Psicossocial</div>
+        </div>
+
+        <label class="label">Email institucional</label>
+        <input type="text" id="login-email" placeholder="seu.email@ifto.edu.br" />
+        <label class="label">Senha</label>
+        <input type="text" id="login-senha" placeholder="••••••••" />
+        <button class="btn btn-primary" style="width:100%;margin-top:4px;" onclick="doLogin()">Entrar</button>
+        <div id="login-error" style="font-size:12px;color:#dc3545;margin-top:6px;display:none;">Email ou senha inválidos.</div>
+
+        <div class="demo-accounts">
+          <div style="font-size:11px;font-weight:500;color:var(--color-text-secondary);">Contas de demonstração (senha: 123456)</div>
+          <div class="demo-grid">
+            <button class="demo-btn" onclick="quickLogin('joao@ifto.edu.br')">Aluno — Joao</button>
+            <button class="demo-btn" onclick="quickLogin('ana@ifto.edu.br')">Psicologa — Ana</button>
+            <button class="demo-btn" onclick="quickLogin('carlos@ifto.edu.br')">Assist. Social — Carlos</button>
+            <button class="demo-btn" onclick="quickLogin('maria@ifto.edu.br')">Coordenadora — Maria</button>
+            <button class="demo-btn" onclick="quickLogin('admin@ifto.edu.br')">Admin / TI</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ALUNO ===== -->
+    <div id="aluno-screen" class="section">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('al','al-home',this)">Inicio</div>
+        <div class="tab" onclick="showTab('al','al-agendar',this)">Novo agendamento</div>
+        <div class="tab" onclick="showTab('al','al-historico',this)">Meus agendamentos</div>
+      </div>
+
+      <!-- Inicio -->
+      <div id="al-home" class="section active">
+        <h3>Ola, Joao Silva</h3>
+        <div class="info-box">Voce tem 1 agendamento confirmado esta semana.</div>
+        <div class="row" style="margin-top:12px;">
+          <div class="col">
+            <div class="card-white">
+              <div class="row-center" style="margin-bottom:8px;">
+                <div class="avatar av-blue">JS</div>
+                <div>
+                  <div style="font-size:13px;font-weight:500;">Dra. Ana Santos</div>
+                  <div style="font-size:11px;color:var(--color-text-secondary);">Psicologa</div>
+                </div>
+                <span class="badge badge-green" style="margin-left:auto;">Confirmado</span>
+              </div>
+              <div style="font-size:12px;color:var(--color-text-secondary);">15/04/2026 · 09:00</div>
+              <div style="font-size:12px;margin-top:4px;">Motivo: Orientacao academica</div>
+              <div style="margin-top:8px;display:flex;gap:6px;">
+                <button class="btn btn-sm" onclick="alert('Presenca confirmada!')">Confirmar presenca</button>
+                <button class="btn btn-sm btn-danger" onclick="alert('Agendamento cancelado.')">Cancelar</button>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card-white">
+              <div class="row-center" style="margin-bottom:8px;">
+                <div class="avatar av-green">CO</div>
+                <div>
+                  <div style="font-size:13px;font-weight:500;">Carlos Oliveira</div>
+                  <div style="font-size:11px;color:var(--color-text-secondary);">Assistente Social</div>
+                </div>
+                <span class="badge badge-yellow" style="margin-left:auto;">Pendente</span>
+              </div>
+              <div style="font-size:12px;color:var(--color-text-secondary);">18/04/2026 · 14:00</div>
+              <div style="font-size:12px;margin-top:4px;">Motivo: Apoio social</div>
+              <div style="margin-top:8px;display:flex;gap:6px;">
+                <button class="btn btn-sm" onclick="alert('Presenca confirmada!')">Confirmar presenca</button>
+                <button class="btn btn-sm btn-danger" onclick="alert('Agendamento cancelado.')">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Novo agendamento -->
+      <div id="al-agendar" class="section">
+        <h3>Novo agendamento</h3>
+        <label class="label">Profissional</label>
+        <select onchange="updateSlots(this)">
+          <option>Dra. Ana Santos (Psicologa)</option>
+          <option>Carlos Oliveira (Assistente Social)</option>
+        </select>
+        <label class="label">Data</label>
+        <input type="date" id="ag-data" />
+        <label class="label">Horarios disponiveis</label>
+        <div class="time-grid" id="time-grid">
+          <div class="time-slot" onclick="selectSlot(this)">08:00</div>
+          <div class="time-slot" onclick="selectSlot(this)">09:00</div>
+          <div class="time-slot taken">10:00</div>
+          <div class="time-slot" onclick="selectSlot(this)">11:00</div>
+          <div class="time-slot" onclick="selectSlot(this)">14:00</div>
+          <div class="time-slot taken">15:00</div>
+          <div class="time-slot" onclick="selectSlot(this)">16:00</div>
+        </div>
+        <label class="label">Motivo (opcional)</label>
+        <textarea rows="2" placeholder="Descreva brevemente o motivo do atendimento..."></textarea>
+        <div class="info-box">Cancelamentos permitidos com ate 24h de antecedencia · Limite: 1 agendamento ativo por semana</div>
+        <button class="btn btn-primary" style="margin-top:8px;" onclick="alert('Agendamento realizado! Voce receberá uma confirmação por email.')">Confirmar agendamento</button>
+      </div>
+
+      <!-- Historico -->
+      <div id="al-historico" class="section">
+        <h3>Historico de agendamentos</h3>
+        <div class="card-white">
+          <div class="row-center"><span class="badge badge-green">Realizado</span><span style="font-size:12px;color:var(--color-text-secondary);margin-left:8px;">10/03/2026 · 09:00 · Dra. Ana Santos</span></div>
+        </div>
+        <div class="card-white">
+          <div class="row-center"><span class="badge badge-red">Falta</span><span style="font-size:12px;color:var(--color-text-secondary);margin-left:8px;">01/03/2026 · 14:00 · Carlos Oliveira</span></div>
+        </div>
+        <div class="card-white">
+          <div class="row-center"><span class="badge badge-green">Realizado</span><span style="font-size:12px;color:var(--color-text-secondary);margin-left:8px;">18/02/2026 · 11:00 · Dra. Ana Santos</span></div>
+        </div>
+        <div class="card-white">
+          <div class="row-center"><span class="badge badge-gray">Cancelado</span><span style="font-size:12px;color:var(--color-text-secondary);margin-left:8px;">05/02/2026 · 10:00 · Carlos Oliveira</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== PROFISSIONAL ===== -->
+    <div id="prof-screen" class="section">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('pr','pr-agenda',this)">Agenda do dia</div>
+        <div class="tab" onclick="showTab('pr','pr-disp',this)">Disponibilidade</div>
+        <div class="tab" onclick="showTab('pr','pr-hist',this)">Historico</div>
+      </div>
+
+      <!-- Agenda do dia -->
+      <div id="pr-agenda" class="section active">
+        <h3>Agenda — 31/03/2026</h3>
+        <div class="agenda-row">
+          <div class="agenda-time">08:00</div>
+          <div class="agenda-block empty" style="font-size:12px;padding:8px 10px;color:var(--color-text-secondary);">Horario livre</div>
+        </div>
+        <div class="agenda-row">
+          <div class="agenda-time">09:00</div>
+          <div class="agenda-block">
+            <div class="row-center">
+              <div class="avatar av-blue" style="width:28px;height:28px;font-size:11px;">JS</div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">Joao Silva</div>
+                <div style="font-size:11px;color:var(--color-text-secondary);">Orientacao academica</div>
+              </div>
+              <span class="badge badge-blue">Agendado</span>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <button class="btn btn-sm btn-primary" onclick="alert('Atendimento confirmado!')">Confirmar realizacao</button>
+              <button class="btn btn-sm btn-danger" onclick="alert('Falta registrada.')">Registrar falta</button>
+            </div>
+          </div>
+        </div>
+        <div class="agenda-row">
+          <div class="agenda-time">10:00</div>
+          <div class="agenda-block empty" style="font-size:12px;padding:8px 10px;color:var(--color-text-secondary);">Horario livre</div>
+        </div>
+        <div class="agenda-row">
+          <div class="agenda-time">11:00</div>
+          <div class="agenda-block">
+            <div class="row-center">
+              <div class="avatar av-purple" style="width:28px;height:28px;font-size:11px;">MS</div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">Maria Santos</div>
+                <div style="font-size:11px;color:var(--color-text-secondary);">Apoio emocional</div>
+              </div>
+              <span class="badge badge-blue">Agendado</span>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <button class="btn btn-sm btn-primary" onclick="alert('Atendimento confirmado!')">Confirmar realizacao</button>
+              <button class="btn btn-sm btn-danger" onclick="alert('Falta registrada.')">Registrar falta</button>
+            </div>
+          </div>
+        </div>
+        <div class="agenda-row">
+          <div class="agenda-time">14:00</div>
+          <div class="agenda-block">
+            <div class="row-center">
+              <div class="avatar av-green" style="width:28px;height:28px;font-size:11px;">PF</div>
+              <div style="flex:1;">
+                <div style="font-size:13px;font-weight:500;">Pedro Ferreira</div>
+                <div style="font-size:11px;color:var(--color-text-secondary);">Dificuldades financeiras</div>
+              </div>
+              <span class="badge badge-yellow">Pendente</span>
+            </div>
+            <div style="display:flex;gap:6px;margin-top:8px;">
+              <button class="btn btn-sm btn-primary" onclick="alert('Atendimento confirmado!')">Confirmar realizacao</button>
+              <button class="btn btn-sm btn-danger" onclick="alert('Falta registrada.')">Registrar falta</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Disponibilidade -->
+      <div id="pr-disp" class="section">
+        <h3>Gerenciar disponibilidade</h3>
+        <h4>Dias de atendimento</h4>
+        <div class="card">
+          <div class="checkbox-row"><input type="checkbox" checked/> Segunda-feira</div>
+          <div class="checkbox-row"><input type="checkbox" checked/> Terca-feira</div>
+          <div class="checkbox-row"><input type="checkbox" checked/> Quarta-feira</div>
+          <div class="checkbox-row"><input type="checkbox"/> Quinta-feira</div>
+          <div class="checkbox-row"><input type="checkbox"/> Sexta-feira</div>
+        </div>
+        <h4>Horario de atendimento</h4>
+        <div class="row">
+          <div class="col"><label class="label">Inicio</label><input type="text" value="08:00"/></div>
+          <div class="col"><label class="label">Fim</label><input type="text" value="12:00"/></div>
+          <div class="col"><label class="label">Intervalo</label>
+            <select><option>30 min</option><option>50 min</option><option>60 min</option></select>
+          </div>
+        </div>
+        <h4>Datas bloqueadas</h4>
+        <div class="card">
+          <div class="row-center" style="margin-bottom:6px;"><span style="font-size:13px;">21/04/2026 — Tiradentes</span><button class="btn btn-sm btn-danger" style="margin-left:auto;" onclick="alert('Data removida.')">Remover</button></div>
+          <div class="row-center"><span style="font-size:13px;">01/05/2026 — Dia do Trabalho</span><button class="btn btn-sm btn-danger" style="margin-left:auto;" onclick="alert('Data removida.')">Remover</button></div>
+        </div>
+        <input type="date" placeholder="Nova data de bloqueio"/>
+        <button class="btn btn-primary" onclick="alert('Disponibilidade salva!')">Salvar disponibilidade</button>
+      </div>
+
+      <!-- Historico profissional -->
+      <div id="pr-hist" class="section">
+        <h3>Historico de atendimentos</h3>
+        <div class="card-white">
+          <div style="font-size:13px;font-weight:500;">Joao Silva</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">10/03/2026 · 09:00 · <span class="badge badge-green">Realizado</span></div>
+          <div style="font-size:12px;margin-top:4px;color:var(--color-text-secondary);">Observacoes confidenciais disponiveis ao profissional.</div>
+        </div>
+        <div class="card-white">
+          <div style="font-size:13px;font-weight:500;">Maria Santos</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">08/03/2026 · 11:00 · <span class="badge badge-red">Falta</span></div>
+        </div>
+        <div class="card-white">
+          <div style="font-size:13px;font-weight:500;">Pedro Ferreira</div>
+          <div style="font-size:11px;color:var(--color-text-secondary);">02/03/2026 · 14:00 · <span class="badge badge-green">Realizado</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== COORDENADORA ===== -->
+    <div id="coord-screen" class="section">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('co','co-dash',this)">Dashboard</div>
+        <div class="tab" onclick="showTab('co','co-agenda',this)">Agendamentos</div>
+        <div class="tab" onclick="showTab('co','co-prof',this)">Profissionais</div>
+        <div class="tab" onclick="showTab('co','co-rel',this)">Relatorios</div>
+      </div>
+
+      <!-- Dashboard -->
+      <div id="co-dash" class="section active">
+        <h3>Estatisticas — Marco 2026</h3>
+        <div class="metric-grid">
+          <div class="metric"><div class="metric-num">156</div><div class="metric-lbl">Atendimentos</div><div class="metric-trend trend-up">+23%</div></div>
+          <div class="metric"><div class="metric-num">12</div><div class="metric-lbl">Faltas</div><div class="metric-trend trend-down">-5%</div></div>
+          <div class="metric"><div class="metric-num">89</div><div class="metric-lbl">Alunos</div><div class="metric-trend trend-up">+15%</div></div>
+          <div class="metric"><div class="metric-num">87%</div><div class="metric-lbl">Ocupacao</div><div class="metric-trend trend-up">+12%</div></div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <h4>Atendimentos por profissional</h4>
+            <div class="bar-wrap"><div class="bar-label"><span>Dra. Ana Santos (Psicologa)</span><span>65%</span></div><div class="bar-bg"><div class="bar-fill" style="width:65%;background:#004A7C;"></div></div></div>
+            <div class="bar-wrap"><div class="bar-label"><span>Carlos Oliveira (Assist. Social)</span><span>35%</span></div><div class="bar-bg"><div class="bar-fill" style="width:35%;background:#2C7DA0;"></div></div></div>
+          </div>
+          <div class="col">
+            <h4>Atendimentos por curso</h4>
+            <div class="bar-wrap"><div class="bar-label"><span>Informatica</span><span>40%</span></div><div class="bar-bg"><div class="bar-fill" style="width:40%;background:#28a745;"></div></div></div>
+            <div class="bar-wrap"><div class="bar-label"><span>Agropecuaria</span><span>35%</span></div><div class="bar-bg"><div class="bar-fill" style="width:35%;background:#28a745;"></div></div></div>
+            <div class="bar-wrap"><div class="bar-label"><span>Enfermagem</span><span>25%</span></div><div class="bar-bg"><div class="bar-fill" style="width:25%;background:#28a745;"></div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agendamentos (coord) -->
+      <div id="co-agenda" class="section">
+        <h3>Todos os agendamentos</h3>
+        <div class="row-center" style="margin-bottom:10px;gap:8px;flex-wrap:wrap;">
+          <select style="margin:0;width:auto;flex:1;"><option>Todos os profissionais</option><option>Dra. Ana Santos</option><option>Carlos Oliveira</option></select>
+          <select style="margin:0;width:auto;flex:1;"><option>Todos os status</option><option>Agendado</option><option>Realizado</option><option>Falta</option></select>
+        </div>
+        <div class="card-white"><div class="row-center"><div class="col"><div style="font-size:13px;font-weight:500;">Joao Silva</div><div style="font-size:11px;color:var(--color-text-secondary);">31/03/2026 · 09:00 · Dra. Ana Santos</div></div><span class="badge badge-blue">Agendado</span></div></div>
+        <div class="card-white"><div class="row-center"><div class="col"><div style="font-size:13px;font-weight:500;">Maria Santos</div><div style="font-size:11px;color:var(--color-text-secondary);">31/03/2026 · 11:00 · Dra. Ana Santos</div></div><span class="badge badge-blue">Agendado</span></div></div>
+        <div class="card-white"><div class="row-center"><div class="col"><div style="font-size:13px;font-weight:500;">Pedro Ferreira</div><div style="font-size:11px;color:var(--color-text-secondary);">31/03/2026 · 14:00 · Carlos Oliveira</div></div><span class="badge badge-yellow">Pendente</span></div></div>
+        <div class="card-white"><div class="row-center"><div class="col"><div style="font-size:13px;font-weight:500;">Ana Lima</div><div style="font-size:11px;color:var(--color-text-secondary);">30/03/2026 · 09:00 · Carlos Oliveira</div></div><span class="badge badge-green">Realizado</span></div></div>
+      </div>
+
+      <!-- Profissionais (coord) -->
+      <div id="co-prof" class="section">
+        <h3>Gerenciar profissionais</h3>
+        <div class="card-white"><div class="row-center"><div class="avatar av-blue">AS</div><div class="col"><div style="font-size:13px;font-weight:500;">Dra. Ana Santos</div><div style="font-size:11px;color:var(--color-text-secondary);">Psicologa · ana@ifto.edu.br</div></div><span class="badge badge-green">Ativa</span><button class="btn btn-sm" style="margin-left:8px;" onclick="alert('Profissional desativada.')">Desativar</button></div></div>
+        <div class="card-white"><div class="row-center"><div class="avatar av-green">CO</div><div class="col"><div style="font-size:13px;font-weight:500;">Carlos Oliveira</div><div style="font-size:11px;color:var(--color-text-secondary);">Assistente Social · carlos@ifto.edu.br</div></div><span class="badge badge-green">Ativo</span><button class="btn btn-sm" style="margin-left:8px;" onclick="alert('Profissional desativado.')">Desativar</button></div></div>
+      </div>
+
+      <!-- Relatorios -->
+      <div id="co-rel" class="section">
+        <h3>Relatorios</h3>
+        <div class="row">
+          <div class="col"><label class="label">Periodo inicial</label><input type="date"/></div>
+          <div class="col"><label class="label">Periodo final</label><input type="date"/></div>
+        </div>
+        <select><option>Todos os profissionais</option><option>Dra. Ana Santos</option><option>Carlos Oliveira</option></select>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px;">
+          <button class="btn btn-primary" onclick="alert('Relatorio gerado!')">Gerar relatorio</button>
+          <button class="btn" onclick="alert('Exportado para Excel!')">Exportar Excel</button>
+          <button class="btn" onclick="alert('Exportado para PDF!')">Exportar PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== ADMIN ===== -->
+    <div id="admin-screen" class="section">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab('ad','ad-users',this)">Usuarios</div>
+        <div class="tab" onclick="showTab('ad','ad-logs',this)">Logs do sistema</div>
+        <div class="tab" onclick="showTab('ad','ad-config',this)">Configuracoes</div>
+      </div>
+
+      <!-- Usuarios -->
+      <div id="ad-users" class="section active">
+        <h3>Gerenciar usuarios</h3>
+        <div style="display:flex;gap:8px;margin-bottom:10px;">
+          <input type="text" placeholder="Buscar por nome ou email..." style="flex:1;margin:0;"/>
+          <button class="btn btn-primary" onclick="alert('Formulario de novo usuario.')">+ Novo usuario</button>
+        </div>
+        <div class="card-white"><div class="row-center"><div class="avatar av-blue" style="font-size:11px;">JS</div><div class="col"><div style="font-size:13px;font-weight:500;">Joao Silva <span class="badge badge-blue profile-badge">Aluno</span></div><div style="font-size:11px;color:var(--color-text-secondary);">joao@ifto.edu.br · Mat: 2024001</div></div><span class="badge badge-green">Ativo</span><button class="btn btn-sm" style="margin-left:8px;" onclick="alert('Editar usuario.')">Editar</button></div></div>
+        <div class="card-white"><div class="row-center"><div class="avatar av-green" style="font-size:11px;">AS</div><div class="col"><div style="font-size:13px;font-weight:500;">Dra. Ana Santos <span class="badge badge-purple profile-badge" style="background:#e2d9f3;color:#432874;">Psicologa</span></div><div style="font-size:11px;color:var(--color-text-secondary);">ana@ifto.edu.br</div></div><span class="badge badge-green">Ativa</span><button class="btn btn-sm" style="margin-left:8px;" onclick="alert('Editar usuario.')">Editar</button></div></div>
+        <div class="card-white"><div class="row-center"><div class="avatar av-purple" style="font-size:11px;">CO</div><div class="col"><div style="font-size:13px;font-weight:500;">Carlos Oliveira <span class="badge badge-blue profile-badge" style="background:#d4edda;color:#155724;">Assist. Social</span></div><div style="font-size:11px;color:var(--color-text-secondary);">carlos@ifto.edu.br</div></div><span class="badge badge-green">Ativo</span><button class="btn btn-sm" style="margin-left:8px;" onclick="alert('Editar usuario.')">Editar</button></div></div>
+        <div class="card-white"><div class="row-center"><div class="avatar av-blue" style="font-size:11px;">MF</div><div class="col"><div style="font-size:13px;font-weight:500;">Maria Fernandes <span class="badge badge-yellow profile-badge">Coord.</span></div><div style="font-size:11px;color:var(--color-text-secondary);">maria@ifto.edu.br</div></div><span class="badge badge-green">Ativa</span><button class="btn btn-sm" style="margin-left:8px;" onclick="alert('Editar usuario.')">Editar</button></div></div>
+      </div>
+
+      <!-- Logs -->
+      <div id="ad-logs" class="section">
+        <h3>Logs do sistema</h3>
+        <div class="log-row"><span class="log-time">31/03 09:12</span><span class="badge badge-blue" style="font-size:10px;">AGENDAR</span><span style="margin-left:8px;">joao@ifto.edu.br agendou com Dra. Ana Santos — 31/03 09:00</span></div>
+        <div class="log-row"><span class="log-time">31/03 08:45</span><span class="badge badge-green" style="font-size:10px;">LOGIN</span><span style="margin-left:8px;">ana@ifto.edu.br fez login no sistema</span></div>
+        <div class="log-row"><span class="log-time">30/03 17:30</span><span class="badge badge-red" style="font-size:10px;">CANCELAR</span><span style="margin-left:8px;">pedro@ifto.edu.br cancelou agendamento #447</span></div>
+        <div class="log-row"><span class="log-time">30/03 14:02</span><span class="badge badge-green" style="font-size:10px;">REALIZADO</span><span style="margin-left:8px;">carlos@ifto.edu.br confirmou atendimento de Ana Lima</span></div>
+        <div class="log-row"><span class="log-time">30/03 11:55</span><span class="badge badge-yellow" style="font-size:10px;">FALTA</span><span style="margin-left:8px;">ana@ifto.edu.br registrou falta de Joao Silva #440</span></div>
+        <div class="log-row"><span class="log-time">30/03 08:00</span><span class="badge badge-green" style="font-size:10px;">LOGIN</span><span style="margin-left:8px;">admin@ifto.edu.br fez login no sistema</span></div>
+      </div>
+
+      <!-- Configuracoes -->
+      <div id="ad-config" class="section">
+        <h3>Configuracoes do sistema</h3>
+        <h4>Dominio institucional permitido</h4>
+        <input type="text" value="@ifto.edu.br"/>
+        <h4>Horario de funcionamento</h4>
+        <div class="row">
+          <div class="col"><label class="label">Abertura</label><input type="text" value="08:00"/></div>
+          <div class="col"><label class="label">Fechamento</label><input type="text" value="18:00"/></div>
+        </div>
+        <h4>Regras de negocio</h4>
+        <div class="card">
+          <div class="row-center" style="margin-bottom:8px;"><span style="font-size:13px;flex:1;">Limite de agendamentos por semana por aluno</span><input type="text" value="1" style="width:60px;margin:0;text-align:center;"/></div>
+          <div class="row-center" style="margin-bottom:8px;"><span style="font-size:13px;flex:1;">Antecedencia minima para cancelamento (horas)</span><input type="text" value="24" style="width:60px;margin:0;text-align:center;"/></div>
+          <div class="row-center"><span style="font-size:13px;flex:1;">Faltas consecutivas para bloqueio</span><input type="text" value="3" style="width:60px;margin:0;text-align:center;"/></div>
+        </div>
+        <button class="btn btn-primary" onclick="alert('Configuracoes salvas!')">Salvar configuracoes</button>
+      </div>
+    </div>
+
+  </div><!-- /.screen -->
+</div><!-- /.app -->
+
+<script src="./js/app.js"></script>
+</body>
+</html>
