@@ -1,14 +1,11 @@
 # agendaIF
 
-IDENTIFICAÇÃO DO PROJETO
-Campo
-Informação
-Projeto
+
+
 Sistema de Agenda e Gerenciamento de Informações - Atendimento Psicossocial
-Tipo
+
 Protótipo Funcional (HTML/CSS/JS)
-Autores
-Emerson Fabiano Carvalho, Geraldo Garcia, Janaína Souza, Maria Fernanda Carrilho, Rodrigo Abreu
+
 Versão
 1.0 (Protótipo)
 
@@ -27,26 +24,13 @@ JavaScript (app.js)
 Lógica do sistema, navegação, dados mockados
 
 Estrutura de Arquivos
-text
-agenda-ifto-prototipo/
-│
+
+agendaIF/
+
 ├── index.html    # Página única com todas as telas
 ├── style.css     # Estilos e layout responsivo
 └── app.js        # Toda a lógica + dados mockados
 
-O QUE CADA ARQUIVO FAZ
-Arquivo
-Função
-O que contém
-index.html
-Estrutura da página
-Tela de login, dashboards, modais, navegação
-style.css
-Estilos visuais
-Cores, fontes, layout responsivo, animações
-app.js
-Lógica completa
-Autenticação, agendamentos, cancelamentos, dados mockados, gráficos
 
 
 PERFIS DE USUÁRIO
@@ -54,7 +38,7 @@ O protótipo contempla 5 perfis de usuário:
 Perfil
 Email
 Senha
- Aluno
+Aluno
 joao@ifto.edu.br
 123456
 Psicóloga
@@ -117,7 +101,7 @@ Atendimentos por profissional e por curso
 Gerar relatório PDF
 Exportar relatório
 
- Administrador
+Administrador
 Funcionalidade
 Descrição
 Gerenciar usuários
@@ -126,9 +110,7 @@ Visualizar logs
 Auditoria de atividades do sistema
 
 
- REGRAS DE NEGÓCIO IMPLEMENTADAS
-Regra
-Como funciona
+REGRAS DE NEGÓCIO IMPLEMENTADAS
 1 agendamento por semana
 Sistema impede novo agendamento se já tiver um na semana
 Cancelamento com 24h
@@ -143,4 +125,3 @@ Bloqueio de horários ocupados
 Horários já agendados não aparecem
 
 
-# agendaIF
